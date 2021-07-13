@@ -151,4 +151,9 @@ const colors = [
     "YellowGreen",
   ];
 
-export {colors};
+  const getRandomColor = () => {
+    const index = Math.floor(Math.random() * colors.length);
+    return colors[index]
+};
+
+export { getRandomColor };
