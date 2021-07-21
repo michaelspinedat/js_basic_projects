@@ -1,9 +1,28 @@
 import { menu } from "./items.js";
 
 const sectionCenter = document.querySelector('.section-center');
+const filterBtns = document.querySelectorAll('.filter-btn');
 
+// load items
 window.addEventListener('DOMContentLoaded', () => {
-    let displayMenu = menu.map(item =>
+    displayMenuItems(menu);
+});
+
+// filter items
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', e => {
+        const category = e.currentTarget.dataset.id;
+        let menuCategory = [];
+        if(category === 'all')
+            menuCategory = menu;
+        else 
+            menuCategory = menu.filter(item => item.category === category);        
+        displayMenuItems(menuCategory);        
+    });
+});
+
+function displayMenuItems(menuItems) {
+    let displayMenu = menuItems.map(item =>
         `<article class="menu-item">
         <img src="${item.img}" class="photo" alt="${item.title}" />
         <div class="item-info">
@@ -17,7 +36,7 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
     </article>`
     );
-    
+
     displayMenu = displayMenu.join('');
     sectionCenter.innerHTML = displayMenu;
-});
+}
