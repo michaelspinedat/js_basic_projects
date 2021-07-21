@@ -6,8 +6,7 @@ const btnContainer = document.querySelector('.btn-container');
 // load items
 window.addEventListener('DOMContentLoaded', () => {
     displayMenuItems(menu);    
-    displayFilterButtons(getCategories(menu));
-    addFunctionalityToButtons();
+    displayFilterButtons(getCategories(menu));    
 });
 
 
@@ -26,6 +25,7 @@ function displayFilterButtons(categories) {
     ).join('');
 
     btnContainer.innerHTML = categoryBtns;
+    addFunctionalityToButtons();
 }
 
 function addFunctionalityToButtons() {
