@@ -1,25 +1,51 @@
 import { menu } from "./items.js";
 
 const sectionCenter = document.querySelector('.section-center');
-const filterBtns = document.querySelectorAll('.filter-btn');
+const btnContainer = document.querySelector('.btn-container');
 
 // load items
 window.addEventListener('DOMContentLoaded', () => {
-    displayMenuItems(menu);
+    displayMenuItems(menu);    
+    displayFilterButtons(getCategories(menu));
+    addFunctionalityToButtons();
 });
 
-// filter items
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', e => {
-        const category = e.currentTarget.dataset.id;
-        let menuCategory = [];
-        if(category === 'all')
-            menuCategory = menu;
-        else 
-            menuCategory = menu.filter(item => item.category === category);        
-        displayMenuItems(menuCategory);        
+
+function getCategories(menu) {
+    return menu.reduce((values, item) => {
+        const category = item.category
+        if (!values.includes(category))
+            values.push(category);
+        return values;
+    }, ['all']);
+}
+
+function displayFilterButtons(categories) {
+    const categoryBtns = categories.map(category =>
+        `<button class="filter-btn" type="button" data-id="${category}">${category}</button>`
+    ).join('');
+
+    btnContainer.innerHTML = categoryBtns;
+}
+
+function addFunctionalityToButtons() {
+    // filter items
+    const filterBtns = document.querySelectorAll('.filter-btn');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', e => {
+            const category = e.currentTarget.dataset.id;
+            let menuCategory = [];
+            if (category === 'all')
+                menuCategory = menu;
+            else
+                menuCategory = menu.filter(item => item.category === category);
+            displayMenuItems(menuCategory);
+        });
     });
-});
+}
+
+
 
 function displayMenuItems(menuItems) {
     let displayMenu = menuItems.map(item =>
