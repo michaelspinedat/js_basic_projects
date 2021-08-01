@@ -33,3 +33,28 @@ window.addEventListener('scroll', () => {
     else
         topLink.classList.remove('show-link');
 });
+
+// smooth scroll.
+const scrollLinks = document.querySelectorAll('.scroll-link');
+
+scrollLinks.forEach( link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const id = e.currentTarget.getAttribute('href').slice(1);
+        const element = document.getElementById(id);
+
+        // calculate the heights.
+        const containerHeight = linksContainer.getBoundingClientRect().height;
+        const navHeight = navbar.getBoundingClientRect().height;
+        const fixedNav = navbar.classList.contains('fixed-nav');
+
+        let position = fixedNav ? element.offsetTop - navHeight : element.offsetTop - 2 * navHeight;
+
+        if (navHeight > 82) position += containerHeight;
+
+        window.scrollTo(
+            {left: 0, top: position}
+        );
+        linksContainer.style.height = 0;
+    });
+});
