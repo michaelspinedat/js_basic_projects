@@ -147,8 +147,8 @@ function getLocalStorage () {
 // Set up items.
 
 function setupItems () {
-    let items = getLocalStorage();
-    if (items) {
+    let items = getLocalStorage();    
+    if (items.length) {        
         items.forEach(item => {
             addItem(item.id, item.value);
         });
