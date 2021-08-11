@@ -19,7 +19,9 @@ function modifyList (e) {
     const id = new Date().getTime().toString();
     
     if (value && !editFlag) {
-        addItem(value, id);
+        addItem(id, value);
+        container.classList.add('show-container');
+        displayAlert('item added to the list', 'success');
         addToLocalStorage(id, value);
         setBackToDefault();
     }        
@@ -34,7 +36,7 @@ function modifyList (e) {
 }
 
 // Add element to the list.
-function addItem (value, id) {
+function addItem (id, value) {
     const element = document.createElement('article');
     element.classList.add('grocery-item');
     const attr = document.createAttribute('data-id');
@@ -55,10 +57,7 @@ function addItem (value, id) {
     const editBtn = element.querySelector('.edit-btn');
     deleteBtn.addEventListener('click', deleteItem);
     editBtn.addEventListener('click', editItem);
-
-    list.appendChild(element);
-    displayAlert('item added to the list', 'success');
-    container.classList.add('show-container');
+    list.appendChild(element);        
 }
 
 // Displays a message after making a modification to the list.
@@ -145,6 +144,19 @@ function getLocalStorage () {
     : [];
 }
 
+// Set up items.
+
+function setupItems () {
+    let items = getLocalStorage();
+    if (items) {
+        items.forEach(item => {
+            addItem(item.id, item.value);
+        });
+        container.classList.add('show-container');
+    }
+}
+
 // Event listeners.
 form.addEventListener('submit', modifyList);
 clearBtn.addEventListener('click', clearItems);
+window.addEventListener('DOMContentLoaded', setupItems);
